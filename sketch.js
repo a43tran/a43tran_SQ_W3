@@ -31,6 +31,8 @@ let startBg;
 let gameBg;
 let endBg;
 
+let titleFont;
+
 // ------------------------------------------------------------
 // FIGHTER CLASS
 // Extended from Example 1 to include health, attacking,
@@ -267,6 +269,7 @@ function preload() {
   winSound = loadSound("assets/sounds/win.wav");
   bgMusic  = loadSound("assets/sounds/background.mp3");
   startBg = loadImage("assets/images/startBackground.png");
+  titleFont = loadFont("assets/fonts/Jersey10-Regular.ttf");
 }
 
 // ============================================================
@@ -378,18 +381,19 @@ function drawStartScreen() {
   // Title
   fill(255);
   textAlign(CENTER);
-  textSize(52);
+  textSize(85);
   textStyle(BOLD);
+  textFont(titleFont);
   text("BLOB BRAWL", width / 2, height / 2 - 60);
 
   // Subtitle
   fill(255);
-  textSize(18);
+  textSize(35);
   textStyle(NORMAL);
   text("First to land 3 hits wins", width / 2, height / 2 - 20);
 
   // Controls — each player shown in their colour
-  textSize(14);
+  textSize(25);
   textStyle(BOLD);
   fill(97, 233, 255);
   text("P1: A/D move   F attack   G block", width / 2, height / 2 + 30);
@@ -398,8 +402,8 @@ function drawStartScreen() {
 
   // Start prompt
   fill(255);
-  textSize(16);
-  textStyle(NORMAL);
+  textSize(35);
+  textStyle(BOLD);
   text("Press ENTER to start", width / 2, height / 2 + 110);
 }
 

@@ -27,6 +27,10 @@ let punchSounds = [];
 let winSound;
 let bgMusic;
 
+let startBg;
+let gameBg;
+let endBg;
+
 // ------------------------------------------------------------
 // FIGHTER CLASS
 // Extended from Example 1 to include health, attacking,
@@ -262,6 +266,7 @@ function preload() {
   }
   winSound = loadSound("assets/sounds/win.wav");
   bgMusic  = loadSound("assets/sounds/background.mp3");
+  startBg = loadImage("assets/images/startBackground.png");
 }
 
 // ============================================================
@@ -366,6 +371,10 @@ function endGame(winnerLabel) {
 // Displayed before the game begins.
 // ------------------------------------------------------------
 function drawStartScreen() {
+  // Background
+  background(startBg);
+  filter(BLUR, 3);
+  
   // Title
   fill(255);
   textAlign(CENTER);

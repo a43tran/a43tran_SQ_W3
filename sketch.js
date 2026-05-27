@@ -379,23 +379,27 @@ function drawStartScreen() {
   fill(255);
   textAlign(CENTER);
   textSize(52);
+  textStyle(BOLD);
   text("BLOB BRAWL", width / 2, height / 2 - 60);
 
   // Subtitle
-  fill(160);
+  fill(255);
   textSize(18);
+  textStyle(NORMAL);
   text("First to land 3 hits wins", width / 2, height / 2 - 20);
 
   // Controls — each player shown in their colour
   textSize(14);
-  fill(0, 200, 180);
+  textStyle(BOLD);
+  fill(97, 233, 255);
   text("P1: A/D move   F attack   G block", width / 2, height / 2 + 30);
-  fill(255, 150, 30);
+  fill(255, 157, 31);
   text("P2: Arrows move   K attack   L block", width / 2, height / 2 + 55);
 
   // Start prompt
   fill(255);
   textSize(16);
+  textStyle(NORMAL);
   text("Press ENTER to start", width / 2, height / 2 + 110);
 }
 

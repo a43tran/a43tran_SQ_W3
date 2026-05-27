@@ -32,6 +32,7 @@ let gameBg;
 let endBg;
 
 let titleFont;
+let bodyFont;
 
 // ------------------------------------------------------------
 // FIGHTER CLASS
@@ -268,8 +269,9 @@ function preload() {
   }
   winSound = loadSound("assets/sounds/win.wav");
   bgMusic  = loadSound("assets/sounds/background.mp3");
-  startBg = loadImage("assets/images/startBackground.png");
-  titleFont = loadFont("assets/fonts/Jersey10-Regular.ttf");
+  startBg = loadImage("assets/images/startBackground.jpg");
+  titleFont = loadFont("assets/fonts/Kings-Regular.ttf");
+  bodyFont = loadFont("assets/fonts/Caudex-Bold.ttf");
 }
 
 // ============================================================
@@ -376,33 +378,39 @@ function endGame(winnerLabel) {
 function drawStartScreen() {
   // Background
   background(startBg);
-  filter(BLUR, 3);
+  filter(BLUR, 5);
   
   // Title
-  fill(255);
+  fill(255, 230, 145);
+  stroke(186, 146, 13);
+  strokeWeight(6);
   textAlign(CENTER);
-  textSize(85);
+  textSize(64);
   textStyle(BOLD);
   textFont(titleFont);
   text("BLOB BRAWL", width / 2, height / 2 - 60);
 
   // Subtitle
   fill(255);
-  textSize(35);
+  noStroke();
+  textSize(25);
   textStyle(NORMAL);
+  textFont(bodyFont);
   text("First to land 3 hits wins", width / 2, height / 2 - 20);
 
   // Controls — each player shown in their colour
-  textSize(25);
+  textSize(23);
+  noStroke();
   textStyle(BOLD);
-  fill(97, 233, 255);
+  fill(194, 255, 252);
   text("P1: A/D move   F attack   G block", width / 2, height / 2 + 30);
   fill(255, 157, 31);
   text("P2: Arrows move   K attack   L block", width / 2, height / 2 + 55);
 
   // Start prompt
   fill(255);
-  textSize(35);
+  noStroke();
+  textSize(25);
   textStyle(BOLD);
   text("Press ENTER to start", width / 2, height / 2 + 110);
 }

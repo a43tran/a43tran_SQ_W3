@@ -28,7 +28,7 @@ let winSound;
 let bgMusic;
 
 let startBg;
-let gameBg;
+let arenaBg;
 let endBg;
 
 let titleFont;
@@ -270,6 +270,7 @@ function preload() {
   winSound = loadSound("assets/sounds/win.wav");
   bgMusic  = loadSound("assets/sounds/background.mp3");
   startBg = loadImage("assets/images/startBackground.jpg");
+  arenaBg = loadImage("assets/images/arenaBackground.jpg");
   titleFont = loadFont("assets/fonts/Kings-Regular.ttf");
   bodyFont = loadFont("assets/fonts/Caudex-Bold.ttf");
 }
@@ -442,6 +443,9 @@ function drawWinScreen() {
 // Draws the ground plane and dividing line.
 // ------------------------------------------------------------
 function drawArena() {
+  background(arenaBg);
+  filter(BLUR, 2);
+
   fill(40);
   noStroke();
   rect(0, groundY, width, height - groundY);

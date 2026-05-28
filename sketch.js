@@ -172,6 +172,7 @@ function preload() {
 
 function setup() {
   createCanvas(800, 450);
+  userStartAudio();
   groundY = height - 80;
   setupFighters();
 }
@@ -372,7 +373,7 @@ function keyPressed() {
     if (gameState === STATE_START) {
           enterSound.play();
     }
-    
+
     if (gameState === STATE_START || gameState === STATE_WIN) {
       startGame();
     }

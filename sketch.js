@@ -31,6 +31,9 @@ let startBg;
 let arenaBg;
 let endBg;
 
+let raccoon;
+let rabbit;
+
 let titleFont;
 let bodyFont;
 
@@ -46,7 +49,7 @@ class Fighter {
   // "label" is new here — used to identify P1 or P2 when
   // determining the winner.
   // ----------------------------------------------------------
-  constructor(x, y, colour, controls, label) {
+  constructor(x, y, image, controls, label, fistColour) {
     // Position and physics
     this.x = x;
     this.y = y;
@@ -57,9 +60,9 @@ class Fighter {
     this.r = 28;
 
     // Appearance
-    this.colour = colour;
+    this.image = image;
     this.label = label; // "P1" or "P2"
-    this.blobT = random(100);
+    this.fistColour = fistColour; 
 
     // Controls
     this.controls = controls;
@@ -216,37 +219,20 @@ class Fighter {
 
     // Draw fist when attacking
     if (this.isAttacking) {
-      fill(this.hitFlash > 0 ? color(255) : this.colour);
+      fill(this.fistColour);
       noStroke();
       ellipse(this.getPunchX(), this.y, 20, 20);
     }
 
-    // Blob body — flash white when hit, normal colour otherwise
-    fill(this.hitFlash > 0 ? color(255) : this.colour);
-    noStroke();
-
-    beginShape();
-    let numPoints = 48;
-    for (let i = 0; i < numPoints; i++) {
-      let angle = (TWO_PI / numPoints) * i;
-      let noiseVal = noise(
-        cos(angle) * 0.8 + this.blobT,
-        sin(angle) * 0.8 + this.blobT,
-      );
-      let r = this.r + map(noiseVal, 0, 1, -7, 7);
-      vertex(this.x + cos(angle) * r, this.y + sin(angle) * r);
+    imageMode(CENTER);
+    if (this.hitFlash > 0) {
+      tint(255);
+    } else {
+      noTint();
     }
-    endShape(CLOSE);
-
-    // Eyes
-    fill(10);
-    ellipse(this.x - 9, this.y - 7, 8, 8);
-    ellipse(this.x + 9, this.y - 7, 8, 8);
-
+    
+    image(this.image, this.x, this.y, 100, 100);
     pop();
-
-    // Advance blob animation each frame
-    this.blobT += 0.015;
   }
 }
 
@@ -271,6 +257,10 @@ function preload() {
   bgMusic  = loadSound("assets/sounds/background.mp3");
   startBg = loadImage("assets/images/startBackground.jpg");
   arenaBg = loadImage("assets/images/arenaBackground.jpg");
+  endBg = loadImage("assets/images/sparkleBackground.png");
+  raccoon = loadImage("assets/images/raccoon.png");
+  rabbit = loadImage("assets/images/rabbit.png");
+
   titleFont = loadFont("assets/fonts/Kings-Regular.ttf");
   bodyFont = loadFont("assets/fonts/Caudex-Bold.ttf");
 }
@@ -300,18 +290,26 @@ function setupFighters() {
   fighter1 = new Fighter(
     200,
     groundY - 28,
-    color(0, 200, 180), // teal
+    rabbit,
     { left: 65, right: 68, attack: 70, block: 71 }, // A D F G
     "P1",
+    color(255, 181, 197)
   );
 
   fighter2 = new Fighter(
     600,
     groundY - 28,
-    color(255, 150, 30), // orange
+    raccoon,
     { left: LEFT_ARROW, right: RIGHT_ARROW, attack: 75, block: 76 }, // Arrows K L
     "P2",
+    color(163, 253, 255)
   );
+
+  fighter1.punchReach = 35;
+  fighter2.punchReach = 55;
+
+  fighter1.r = 45;
+  fighter2.r = 55;
 }
 
 // ============================================================
@@ -384,12 +382,12 @@ function drawStartScreen() {
   // Title
   fill(255, 230, 145);
   stroke(186, 146, 13);
-  strokeWeight(6);
+  strokeWeight(5);
   textAlign(CENTER);
   textSize(64);
   textStyle(BOLD);
   textFont(titleFont);
-  text("BLOB BRAWL", width / 2, height / 2 - 60);
+  text("Enchanted Woods Brawl", width / 2, height / 2 - 60);
 
   // Subtitle
   fill(255);
@@ -403,9 +401,9 @@ function drawStartScreen() {
   textSize(23);
   noStroke();
   textStyle(BOLD);
-  fill(194, 255, 252);
+  fill(255, 181, 197);
   text("P1: A/D move   F attack   G block", width / 2, height / 2 + 30);
-  fill(255, 157, 31);
+  fill(163, 253, 255);
   text("P2: Arrows move   K attack   L block", width / 2, height / 2 + 55);
 
   // Start prompt
@@ -423,14 +421,16 @@ function drawStartScreen() {
 // ------------------------------------------------------------
 function drawWinScreen() {
   // Semi-transparent overlay
+  background(endBg);
   fill(0, 0, 0, 160);
   rect(0, 0, width, height);
 
   // Winner text — shown in the winner's colour
-  fill(winner === "P1" ? color(0, 200, 180) : color(255, 150, 30));
+  fill(winner === "P1" ? color(255, 181, 197) : color(163, 253, 255));
   textAlign(CENTER);
   textSize(56);
-  text(winner + " WINS!", width / 2, height / 2 - 30);
+  let winnerName = winner === "P1" ? "RUDY" : "RUSSELL";
+  text(winnerName + " WINS!", width / 2, height / 2 - 30);
 
   // Rematch prompt
   fill(255);
@@ -511,14 +511,14 @@ function drawHealthBars() {
   let p1W = map(fighter1.health, 0, fighter1.maxHealth, 0, barW);
   fill(40);
   rect(padding, barY, barW, barH, 4);
-  fill(0, 200, 180);
+  fill(255, 181, 197);
   rect(padding, barY, p1W, barH, 4);
 
   // Player 2 health bar — right side, fills right to left
   let p2W = map(fighter2.health, 0, fighter2.maxHealth, 0, barW);
   fill(40);
   rect(width - padding - barW, barY, barW, barH, 4);
-  fill(255, 150, 30);
+  fill(163, 253, 255);
   rect(width - padding - p2W, barY, p2W, barH, 4);
 
   // Labels
@@ -526,9 +526,9 @@ function drawHealthBars() {
   textSize(13);
   noStroke();
   textAlign(LEFT);
-  text("P1", padding, barY - 5);
+  text("Rudy the Rabbit", padding, barY - 5);
   textAlign(RIGHT);
-  text("P2", width - padding, barY - 5);
+  text("Russell the Raccoon", width - padding, barY - 5);
 }
 
 // ------------------------------------------------------------

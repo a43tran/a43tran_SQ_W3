@@ -330,6 +330,18 @@ function checkHits() {
   }
 }
 
+function drawHeart(x, y, size, col) {
+  push();
+  fill(col);
+  noStroke();
+  beginShape();
+  vertex(x, y + size * 0.3);
+  bezierVertex(x - size, y - size * 0.5, x - size * 0.5, y - size * 1.2, x, y - size * 0.4);
+  bezierVertex(x + size * 0.5, y - size * 1.2, x + size, y - size * 0.5, x, y + size * 0.3);
+  endShape(CLOSE);
+  pop();
+}
+
 function drawHealthBars() {
   let padding = 30;
   let y = 45;

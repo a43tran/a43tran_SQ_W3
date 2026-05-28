@@ -331,31 +331,29 @@ function checkHits() {
 }
 
 function drawHealthBars() {
-  let barW    = 200;
-  let barH    = 18;
-  let barY    = 45;
   let padding = 30;
+  let y = 45;
+  let size = 15;
 
-  let p1W = map(fighter1.health, 0, fighter1.maxHealth, 0, barW);
-  fill(40);
-  rect(padding, barY, barW, barH, 4);
-  fill(255, 181, 197);
-  rect(padding, barY, p1W, barH, 4);
+  for (let i = 0; i < fighter1.maxHealth; i++) {
+    let x = padding + i * 40;
+    let col = i < fighter1.health ? color(255, 181, 197) : color(80);
+    drawHeart(x, y, size, col);
+  }
 
-  let p2W = map(fighter2.health, 0, fighter2.maxHealth, 0, barW);
-  fill(40);
-  rect(width - padding - barW, barY, barW, barH, 4);
-  fill(163, 253, 255);
-  rect(width - padding - p2W, barY, p2W, barH, 4);
+  for (let i = 0; i < fighter2.maxHealth; i++) {
+    let x = width - padding - i * 40;
+    let col = i < fighter2.health ? color(163, 253, 255) : color(80);
+    drawHeart(x, y, size, col);
+  }
 
-  // Labels
   fill(255);
   textSize(13);
   noStroke();
   textAlign(LEFT);
-  text("Rudy the Rabbit", padding, barY - 5);
+  text("Rudy the Rabbit", padding, y - 20);
   textAlign(RIGHT);
-  text("Russell the Raccoon", width - padding, barY - 5);
+  text("Russell the Raccoon", width - padding, y - 20);
 }
 
 function drawFightHUD() {

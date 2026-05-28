@@ -12,7 +12,6 @@ let winner = null;
 let punchSound;
 let winSound;
 let bgMusic;
-let startMusic;
 let enterSound;
 
 let startBg;
@@ -161,7 +160,6 @@ function preload() {
   winSound = loadSound("assets/sounds/win.mp3");
   enterSound = loadSound("assets/sounds/enter.mp3");
   bgMusic  = loadSound("assets/sounds/background.mp3");
-  startMusic = loadSound("assets/sounds/start.mp3");
   startBg = loadImage("assets/images/startBackground.jpg");
   arenaBg = loadImage("assets/images/arenaBackground.jpg");
   endBg = loadImage("assets/images/sparkleBackground.png");
@@ -229,10 +227,6 @@ function startGame() {
   winner = null;
   setupFighters();
 
-  if (startMusic.isPlaying()) {
-    startMusic.stop();
-  }
-
   if (!bgMusic.isPlaying()) {
     bgMusic.loop();
   }
@@ -246,10 +240,6 @@ function endGame(winnerLabel) {
 }
 
 function drawStartScreen() {
-  if (!startMusic.isPlaying()) {
-    startMusic.loop();
-  }
-
   background(startBg);
   filter(BLUR, 5);
   

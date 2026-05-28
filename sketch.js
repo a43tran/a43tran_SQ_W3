@@ -12,7 +12,7 @@ let winner = null;
 let punchSound;
 let winSound;
 let bgMusic;
-let startMusic;
+let enterSound;
 
 let startBg;
 let arenaBg;
@@ -158,7 +158,7 @@ let groundY;
 function preload() {
   punchSound = loadSound("assets/sounds/punch.mp3");
   winSound = loadSound("assets/sounds/win.mp3");
-  startMusic = loadSound("assets/sounds/start.mp3");
+  enterSound = loadSound("assets/sounds/enter.mp3");
   bgMusic  = loadSound("assets/sounds/background.mp3");
   startBg = loadImage("assets/images/startBackground.jpg");
   arenaBg = loadImage("assets/images/arenaBackground.jpg");
@@ -226,10 +226,6 @@ function startGame() {
   winner = null;
   setupFighters();
 
-  if (startMusic.isPlaying()) {
-    startMusic.stop();
-  }
-
   if (!bgMusic.isPlaying()) {
     bgMusic.loop();
   }
@@ -243,10 +239,6 @@ function endGame(winnerLabel) {
 }
 
 function drawStartScreen() {
-    if (!startMusic.isPlaying()) {
-    startMusic.loop();
-  }
-
   background(startBg);
   filter(BLUR, 5);
   
@@ -379,6 +371,7 @@ function keyPressed() {
   if (keyCode === ENTER) {
     if (gameState === STATE_START || gameState === STATE_WIN) {
       startGame();
+      enterSound.play();
     }
   }
 

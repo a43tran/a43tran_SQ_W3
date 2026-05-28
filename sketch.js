@@ -370,8 +370,8 @@ function drawFightHUD() {
 function keyPressed() {
   if (keyCode === ENTER) {
     if (gameState === STATE_START || gameState === STATE_WIN) {
-      startGame();
       enterSound.play();
+      startGame();
     }
   }
 

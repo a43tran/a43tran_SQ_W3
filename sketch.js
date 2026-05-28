@@ -243,12 +243,12 @@ function endGame(winnerLabel) {
 }
 
 function drawStartScreen() {
-  background(startBg);
-  filter(BLUR, 5);
-
-  if (!startMusic.isPlaying()) {
+    if (!startMusic.isPlaying()) {
     startMusic.loop();
   }
+
+  background(startBg);
+  filter(BLUR, 5);
   
   fill(255, 230, 145);
   stroke(186, 146, 13);
